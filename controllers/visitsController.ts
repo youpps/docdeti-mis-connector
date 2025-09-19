@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { Repositories } from "../repositories";
 import { Status } from "../types/status";
-import { IVisit,  VisitType } from "../types/visit";
+import { IVisit, VisitType } from "../types/visit";
 
 class VisitsController {
   constructor(private repositories: Repositories) {}
@@ -10,7 +10,7 @@ class VisitsController {
   visitWebhook = async (req: Request, res: Response) => {
     try {
       const visitSchema = Joi.object({
-        id: Joi.number().min(1).required(),
+        id: Joi.string().min(1).required(),
         parent: Joi.string().min(1).required(),
         child: Joi.string().min(1).required(),
         type: Joi.valid(VisitType.Doctor, VisitType.Nurse).required(),
