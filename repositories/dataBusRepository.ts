@@ -9,6 +9,9 @@ class DataBusRepository {
       const res = await fetch(this.dataBusApiUrl + "/visit", {
         method: "POST",
         body: JSON.stringify(visit),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const json = await res.json();
@@ -20,12 +23,14 @@ class DataBusRepository {
     }
   };
 
-
   sendVisitCancel = async (visit: IVisit): Promise<boolean> => {
     try {
       const res = await fetch(this.dataBusApiUrl + "/visit/cancel", {
         method: "POST",
         body: JSON.stringify(visit),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const json = await res.json();
