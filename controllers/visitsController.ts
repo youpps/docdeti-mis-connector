@@ -29,6 +29,8 @@ class VisitsController {
         comment: Joi.string().min(1).required(),
         doctor: Joi.string().min(1).required(),
         address: Joi.string().min(1).required(),
+        specialization: Joi.string().min(1).required(),
+        serviceName: Joi.string().min(1).required(),
         isLast: Joi.valid(1, 0).required(),
       });
 
