@@ -11,10 +11,23 @@ enum VisitFeedbackType {
   Commercial = "commercial",
 }
 
+enum VisitClientSex {
+  Male = "male",
+  Female = "female",
+}
+
+interface IVisitClient {
+  name: string;
+  surname: string;
+  patronymic: string;
+  sex: VisitClientSex;
+  age: number;
+}
+
 interface IVisit {
   id: string;
-  parent: string | null;
-  child: string | null;
+  parent: IVisitClient;
+  child: IVisitClient | null;
   type: VisitType;
   recordUrl: string;
   processedAt: Date;
@@ -33,4 +46,4 @@ type ICancelledVisit = IVisit & {
   processedAt: string | null;
 };
 
-export { IVisit, ICancelledVisit, VisitFeedbackType, VisitType };
+export { IVisit, ICancelledVisit, VisitFeedbackType, VisitType, VisitClientSex };

@@ -2,17 +2,25 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import { Repositories } from "../repositories";
 import { Status } from "../types/status";
-import { IVisit, VisitType } from "../types/visit";
+import { IVisit, VisitClientSex, VisitType } from "../types/visit";
 
 class VisitsController {
   constructor(private repositories: Repositories) {}
 
   visitWebhook = async (req: Request, res: Response) => {
     try {
+      const client = Joi.object({
+        name: Joi.string().min(1).required(),
+        surname: Joi.string().min(1).required(),
+        patronymic: Joi.string().min(1).required(),
+        sex: Joi.valid(VisitClientSex.Female, VisitClientSex.Male).required(),
+        age: Joi.number().required(),
+      });
+
       const visitSchema = Joi.object({
         id: Joi.string().min(1).required(),
-        parent: Joi.string().min(1).required(),
-        child: Joi.string().min(1).required(),
+        parent: client.required(),
+        child: client.allow(null).required(),
         type: Joi.valid(VisitType.Doctor, VisitType.Nurse).required(),
         recordUrl: Joi.string().min(1).required(),
         processedAt: Joi.date().required(),
@@ -56,10 +64,18 @@ class VisitsController {
 
   visitCancel = async (req: Request, res: Response) => {
     try {
+      const client = Joi.object({
+        name: Joi.string().min(1).required(),
+        surname: Joi.string().min(1).required(),
+        patronymic: Joi.string().min(1).required(),
+        sex: Joi.valid(VisitClientSex.Female, VisitClientSex.Male).required(),
+        age: Joi.number().required(),
+      });
+
       const visitSchema = Joi.object({
         id: Joi.string().min(1).required(),
-        parent: Joi.string().allow(null).min(1).required(),
-        child: Joi.string().allow(null).min(1).required(),
+        parent: client.required(),
+        child: client.allow(null).required(),
         type: Joi.valid(VisitType.Doctor, VisitType.Nurse).required(),
         recordUrl: Joi.string().allow(null).min(1).required(),
         processedAt: Joi.date().allow(null).required(),
