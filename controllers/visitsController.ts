@@ -42,11 +42,11 @@ class VisitsController {
         });
       }
 
-      const isSent = await this.repositories.dataBusRepository.sendVisit(visitData as IVisit);
-      if (!isSent) {
+      const json = await this.repositories.dataBusRepository.sendVisit(visitData as IVisit);
+      if (json.status === Status.Error) {
         return res.status(500).json({
           status: Status.Error,
-          data: { message: "Visit has not been sent to data bus due to internal error" },
+          data: { message: json.data.message },
         });
       }
 
@@ -99,11 +99,12 @@ class VisitsController {
         });
       }
 
-      const isSent = await this.repositories.dataBusRepository.sendVisitCancel(visitData as IVisit);
-      if (!isSent) {
+      const json = await this.repositories.dataBusRepository.sendVisitCancel(visitData as IVisit);
+
+      if (json.status === Status.Error) {
         return res.status(500).json({
           status: Status.Error,
-          data: { message: "Visit cancel has not been sent to data bus due to internal error" },
+          data: { message: json.data.message },
         });
       }
 
